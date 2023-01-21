@@ -82,9 +82,15 @@ bool Airport::operator==(const Airport &airport) const {
     return false;
 }
 
+void Airport::sortByAirline() {
+    sort(this->airportFlights.begin(), this->airportFlights.end());
+}
+
+
 
 
 /*
+
  *  To make OSTREAM Operator
  *
  * Airport airport = Airport("lol","lol","lol","lol",1,1);

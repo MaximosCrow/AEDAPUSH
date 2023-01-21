@@ -26,6 +26,7 @@ public:
     void setTarget(string target);
     void setAirlineCode(string code);
     bool operator == (const Flight &flight) const;
+    bool operator < (const Flight &flight) const;
 };
 
 

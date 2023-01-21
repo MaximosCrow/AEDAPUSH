@@ -12,15 +12,21 @@ int main() {
 
     vector<tuple<Airport, int>> path;
 
-    cout << source->getAirportFlights().size()<<endl;
-    cout << target->getAirportFlights().size()<<endl;
-    cout << graph.getShortestPath(*source, *target, path);
+
+
+
+    /*
+    graph.sortByCity();
+
+    cout<< graph.findCityAirports("London").size() << endl;
+
+
+
+//FlIGHT SORTING NOT TESTED
 
 
 
 
-
-/*
     for(auto &kv : graph.getAirportsLocator()){
         auto f = kv.first;
         auto s = kv.second;

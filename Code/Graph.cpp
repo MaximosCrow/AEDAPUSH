@@ -4,6 +4,8 @@
 
 
 
+#include <algorithm>
+#include "Helper.cpp"
 #include "Graph.h"
 
 Graph::Graph(string airportFile, string flightFile, string airlineFile) {
@@ -183,142 +185,209 @@ int Graph::getShortestPath(Airport source, Airport target, vector<tuple<Airport,
     return -1;
 }
 
+void Graph::sortByCity() {
+    sort(this->airports.begin(), this->airports.end(), compareAirportCity);
+}
 
+vector<Airport> Graph::findCityAirports(string city) {
+    map<string, vector<Airport>> countriesMap;
+    string selected;
 
-
-    /*
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * list<string> path;
-    queue<tuple<Airport, int>> finder;
-    int distance = 1;
-
-    tuple<Airport, int> node = make_tuple(source,distance);
-
-    if(get<0>(node) == target) return get<1>(node);
-    if(visited.find(get<0>(node).getAirportCode()) != visited.end()) return 0;
-
-    visited.insert(get<0>(node).getAirportCode());
-
-
-    for(Flight *flight: get<0>(node).getAirportFlights()){
-        if(1 < getShortestPath(*airportsLocator[flight->getTarget()], target, visited))
-            return get<1>(node);
-
-
-
-    }
-
-    return -1;
-
-
-
-
-    vector<Airport> path;
-    set<string> visited;
-    queue<Airport> finder;
-    int numberOfFlights = 0;
-
-    finder.push(source);
-    visited.insert(source.getAirportCode());
-
-
-    while(!finder.empty()){
-        source = finder.front();
-        finder.pop();
-
-        if(source == target){
-            return numberOfFlights;
-        }
-
-        for(Flight *flight: source.getAirportFlights()){
-            if(visited.find(flight->getTarget()) == visited.end()){
-                finder.push(*airportsLocator[flight->getTarget()]);
-                visited.insert(flight->getTarget());
-                numberOfFlights++;
-                path.push_back(*airportsLocator[flight->getSource()]); // nao sei se esta certo
-            }
+    sortByCity();
+    for(auto airport: airports){
+        if(airport.getCity() == city){
+            vector<Airport> tempOld = countriesMap[airport.getCountry()];
+            tempOld.push_back(airport);
+            countriesMap[airport.getCountry()] = tempOld;
         }
     }
 
-
-
-
-
-
-
-
-    list<Airport> path;
-    set<Airport> visited;
-    queue<tuple<Airport, int>> finder;
-    int distance = 1;
-
-    tuple<Airport, int> node = make_tuple(a,distance);
-
-    finder.push(node);
-    visited.insert(a);
-
-
-    while(finder.size() > 0){
-        finder.pop(); // nao essquecer de no fim add a queue
-        if(a == b){
-            return get<1>(node);
+    if(countriesMap.size() > 1){
+        cout << "Specify Country" << endl;
+        for(auto &kv : countriesMap){
+            cout << kv.first << endl;
         }
+        getline(cin, selected);
+        cout<< selected;
+    }
+
+    return countriesMap[selected];
+}
 
 
 
-        for(Flight flight: airports[get<0>(node)]){
-            if(visited.find(airportsLocator[get<0>(node).airportCode]) == visited.end()){
-                visited.insert(get<0>(node));
-                finder.push(make_tuple(airportsLocator[flight.getAirlineCode()], distance++));
-                path.push_back(airportsLocator[flight.getAirlineCode()]);
-            }
+
+
+
+/*
+ *string selectedCountry;
+    set<string> countries;
+    vector<Airport> cityAirports;
+    vector<Airport> finalAirports;
+    auto it = airports.begin();
+
+    while(it != airports.end()){
+        if(it->getCity() == city){
+            cityAirports.push_back(*it);
+            countries.insert(it->getCountry());
+
+
         }
+        it++;
+    }
+
+    if(countries.size() > 1){
+        cout << "Specify Country" << endl;
+        for(auto country : countries){
+            cout << country << endl;
+        }
+        cin >> selectedCountry;
+    }
+
+    for(auto airport : cityAirports){
+        cout << airport.getCountry() << " 2 ";
+        if(airport.getCountry() == selectedCountry){
+            finalAirports.push_back(airport);
+            cout << airport.getAirportCode() << endl;
+        }
+    }
+ *
+ *
+ *vector<Airport> cityAirports;
+
+    int count = 0;
+
+    while (auto it = find_if(airports.begin(), airports.end(), predicate) != airports.end()){
+        cityAirports.push_back(it))
+        it++;
+ *
+ *
+ *
+ * list<string> path;
+queue<tuple<Airport, int>> finder;
+int distance = 1;
+
+tuple<Airport, int> node = make_tuple(source,distance);
+
+if(get<0>(node) == target) return get<1>(node);
+if(visited.find(get<0>(node).getAirportCode()) != visited.end()) return 0;
+
+visited.insert(get<0>(node).getAirportCode());
+
+
+for(Flight *flight: get<0>(node).getAirportFlights()){
+    if(1 < getShortestPath(*airportsLocator[flight->getTarget()], target, visited))
+        return get<1>(node);
+
+
+
+}
+
+return -1;
+
+
+
+
+vector<Airport> path;
+set<string> visited;
+queue<Airport> finder;
+int numberOfFlights = 0;
+
+finder.push(source);
+visited.insert(source.getAirportCode());
+
+
+while(!finder.empty()){
+    source = finder.front();
+    finder.pop();
+
+    if(source == target){
+        return numberOfFlights;
+    }
+
+    for(Flight *flight: source.getAirportFlights()){
+        if(visited.find(flight->getTarget()) == visited.end()){
+            finder.push(*airportsLocator[flight->getTarget()]);
+            visited.insert(flight->getTarget());
+            numberOfFlights++;
+            path.push_back(*airportsLocator[flight->getSource()]); // nao sei se esta certo
+        }
+    }
+}
+
+
+
+
+
+
+
+
+list<Airport> path;
+set<Airport> visited;
+queue<tuple<Airport, int>> finder;
+int distance = 1;
+
+tuple<Airport, int> node = make_tuple(a,distance);
+
+finder.push(node);
+visited.insert(a);
+
+
+while(finder.size() > 0){
+    finder.pop(); // nao essquecer de no fim add a queue
+    if(a == b){
+        return get<1>(node);
     }
 
 
 
-
-
-    list<Flight> path;
-    set<tuple<Airport, list<Flight>>> visited;
-    queue<tuple<Airport, list<Flight>>> queue;
-
-    for (auto i = airports.begin(); i != airports.end(); i++) {
-        queue.push(tuple<Airport, list<Flight>>{i->first, i->second});
-
-        while (queue.size() > 0) {
-            auto [currentNode, path] = queue.front();
-            queue.pop();
-
-            if (currentNode == b) {
-                return path;
-            }
-            auto j = i++;
-            if (visited.size() >= 0) {
-                visited.insert(tuple<Airport, list<Flight>>{j->first, j->second});
-                queue.push(tuple<Airport, list<Flight>>{j->first, path});
-            }
-            visited.insert(tuple<Airport, list<Flight>>{i->first, i->second});
+    for(Flight flight: airports[get<0>(node)]){
+        if(visited.find(airportsLocator[get<0>(node).airportCode]) == visited.end()){
+            visited.insert(get<0>(node));
+            finder.push(make_tuple(airportsLocator[flight.getAirlineCode()], distance++));
+            path.push_back(airportsLocator[flight.getAirlineCode()]);
         }
-    //visited.insert(i->first);
+    }
+}
+
+
+
+
+
+list<Flight> path;
+set<tuple<Airport, list<Flight>>> visited;
+queue<tuple<Airport, list<Flight>>> queue;
+
+for (auto i = airports.begin(); i != airports.end(); i++) {
+    queue.push(tuple<Airport, list<Flight>>{i->first, i->second});
+
+    while (queue.size() > 0) {
+        auto [currentNode, path] = queue.front();
+        queue.pop();
+
+        if (currentNode == b) {
+            return path;
+        }
+        auto j = i++;
+        if (visited.size() >= 0) {
+            visited.insert(tuple<Airport, list<Flight>>{j->first, j->second});
+            queue.push(tuple<Airport, list<Flight>>{j->first, path});
+        }
+        visited.insert(tuple<Airport, list<Flight>>{i->first, i->second});
+    }
+//visited.insert(i->first);
 
 }
 
 
-    for(auto &kv : airportsLocator) {
-        auto f = kv.first;
-        auto s = kv.second;
+for(auto &kv : airportsLocator) {
+    auto f = kv.first;
+    auto s = kv.second;
 
-        cout << f << endl;
-        cout << s << endl;
-    }
-     */
+    cout << f << endl;
+    cout << s << endl;
+}
+ */
 
 
 

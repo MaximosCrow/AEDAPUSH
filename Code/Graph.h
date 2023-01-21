@@ -38,8 +38,9 @@ public:
     bool flightsBuilder(string flightsFile);
     bool airlinesBuilder(string airlinesFile);
     vector<string> split (const string& s, const string& delimiter);
-    
+    void sortByCity();
     int getShortestPath(Airport source, Airport target, vector<tuple<Airport, int>> &path);
+    vector<Airport> findCityAirports(string city);
 };
 
 

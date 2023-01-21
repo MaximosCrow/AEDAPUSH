@@ -42,4 +42,11 @@ bool Flight::operator==(const Flight &flight) const {
     return false;
 }
 
+bool Flight::operator<(const Flight &flight) const {
+            if(this->airlineCode < flight.airlineCode){
+                return true;
+            }
+            return false;
+        }
+
 

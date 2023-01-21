@@ -8,7 +8,10 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include "Flight.h"
+
+
 
 using namespace std;
 
@@ -38,7 +41,9 @@ public:
     void setLatitude(double latitude);
     void setLongitude(double longitude);
     bool addFlightToAirport(Flight *flight);
+    void sortByAirline();
     bool operator == (const Airport &airport) const;
+
 };
 
 
