@@ -38,6 +38,7 @@ public:
     void setLatitude(double latitude);
     void setLongitude(double longitude);
     bool addFlightToAirport(Flight *flight);
+    bool operator == (const Airport &airport) const;
 };
 
 

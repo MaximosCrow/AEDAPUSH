@@ -77,6 +77,10 @@ bool Airport::addFlightToAirport(Flight *flight) {
     return true;
 }
 
+bool Airport::operator==(const Airport &airport) const {
+    if(this->airportCode == airport.airportCode) return true;
+    return false;
+}
 
 
 

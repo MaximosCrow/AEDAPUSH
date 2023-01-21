@@ -6,6 +6,7 @@
 #define CODE_FLIGHT_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
     void setSource(string source);
     void setTarget(string target);
     void setAirlineCode(string code);
+    bool operator == (const Flight &flight) const;
 };
 
 

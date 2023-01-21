@@ -10,6 +10,10 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <set>
+#include <queue>
+#include <list>
+#include <tuple>
 
 #include "Airport.h"
 #include "Airline.h"
@@ -34,6 +38,8 @@ public:
     bool flightsBuilder(string flightsFile);
     bool airlinesBuilder(string airlinesFile);
     vector<string> split (const string& s, const string& delimiter);
+    
+    int getShortestPath(Airport source, Airport target, vector<tuple<Airport, int>> &path);
 };
 
 

@@ -35,4 +35,11 @@ void Flight::setAirlineCode(string code) {
     this->airlineCode = code;
 }
 
+bool Flight::operator==(const Flight &flight) const {
+    if(this->flightID == flight.flightID)
+        return true;
+    cout << "returned false on flight id operator ==" <<  endl;
+    return false;
+}
+
 
