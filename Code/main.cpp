@@ -1,10 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <string.h>
 #include "Graph.h"
+#include "Menu/Menu.h"
+
 
 using namespace std;
 
+
 int main() {
+
     Graph graph("..//Data//airports.csv", "..//Data//flights.csv", "..//Data//airlines.csv");
 
     auto source = graph.getAirportsLocator()["OPO"];
@@ -14,6 +19,7 @@ int main() {
 
 
 
+    menu(&graph);
 
     /*
     graph.sortByCity();
@@ -23,8 +29,6 @@ int main() {
 
 
 //FlIGHT SORTING NOT TESTED
-
-
 
 
     for(auto &kv : graph.getAirportsLocator()){
