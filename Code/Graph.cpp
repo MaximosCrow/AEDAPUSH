@@ -249,7 +249,7 @@ vector<Airport> Graph::findCityAirports(string city) {
     return countriesMap[selected];
 }
 
-void Graph::getLimitedPath(Airport source, int maxFlights, vector<tuple<Airport, int>> &path) {
+int Graph::getLimitedPath(Airport source, int maxFlights, vector<tuple<Airport, int>> &path) {
     queue<tuple<Airport, int>> finder;
     set<string> visited;
 
@@ -279,6 +279,8 @@ void Graph::getLimitedPath(Airport source, int maxFlights, vector<tuple<Airport,
         temp = current;
     }
     path.erase(path.begin() +1);
+
+    return path.size();
 }
 
 vector<Airport> Graph::locationRadius(double latitude, double longitude, int tolerance) {
@@ -325,6 +327,16 @@ void Graph::coordinatesRequest(double sourceLatitude, double sourceLongitude, in
     getline(cin, destination);
 
     getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
+}
+
+set<string> Graph::countryCount(Airport airport) {
+        set<string> countries;
+        for(auto code: airport.destinationCount()){
+            countries.insert(airportsLocator[code]->getCountry());
+        }
+
+        cout << "Number of Countries In " << airport.getAirportName()<< ": " << countries.size() << endl;
+        return countries;
 }
 
 

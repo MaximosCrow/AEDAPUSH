@@ -42,6 +42,8 @@ public:
     void setLongitude(double longitude);
     bool addFlightToAirport(Flight *flight);
     void sortByAirline();
+    set<string> airlineCount();
+    set<string> destinationCount();
     bool operator == (const Airport &airport) const;
 
 };
