@@ -3,10 +3,20 @@
 //
 
 
-
-#include <algorithm>
-#include "Helper.cpp"
 #include "Graph.h"
+
+
+struct comparator
+{
+    bool operator()(Airport a, Airport b) const {
+        if(a.getCity() < b.getCity()){
+            return true;
+        }
+        return false;
+    }
+}compareAirportCity;
+
+
 
 Graph::Graph(string airportFile, string flightFile, string airlineFile) {
     if(!airportsLocatorBuilder(airportFile))
@@ -104,7 +114,28 @@ bool Graph::airlinesBuilder(string airlinesFile) {
     return true;
 }
 
+double Graph::haversine(double lat1, double lon1,
+                        double lat2, double lon2)
+{
+    // distance between latitudes
+    // and longitudes
+    double dLat = (lat2 - lat1) *
+                  M_PI / 180.0;
+    double dLon = (lon2 - lon1) *
+                  M_PI / 180.0;
 
+    // convert to radians
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    // apply formulae
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) *
+               cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
 
 vector<string> Graph::split(const string &s, const string &delimiter) {
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
@@ -157,31 +188,15 @@ int Graph::getShortestPath(Airport source, Airport target, vector<tuple<Airport,
 
         }
 
-        //cout << airport.getAirportCode() << endl;
-
-
 
         for(auto neighbor : airport.getAirportFlights()){
             if(visited.find(neighbor->getTarget()) == visited.end()){
-
-
-                //cout << neighbor->getTarget() << endl;
-                //cout << "___________________________" << endl;
-
-
                 visited.insert(neighbor->getTarget());
                 finder.push(make_tuple(*airportsLocator[neighbor->getTarget()], numberOfFlights + 1)); //missing dist
-
             }
         }
         temp = current;
     }
-/*
-    for(auto it : visited){
-        cout << it << '/' ;
-    }
-    cout<< visited.size() << endl;
-*/
     return -1;
 }
 
@@ -192,6 +207,7 @@ void Graph::sortByCity() {
 vector<Airport> Graph::findCityAirports(string city) {
     map<string, vector<Airport>> countriesMap;
     string selected;
+    vector<Airport> singleLookUp;
 
     sortByCity();
     for(auto airport: airports){
@@ -199,8 +215,11 @@ vector<Airport> Graph::findCityAirports(string city) {
             vector<Airport> tempOld = countriesMap[airport.getCountry()];
             tempOld.push_back(airport);
             countriesMap[airport.getCountry()] = tempOld;
+            singleLookUp.push_back(airport);
         }
     }
+
+    cout << selected << endl;
 
     if(countriesMap.size() > 1){
         cout << "Specify Country" << endl;
@@ -208,18 +227,121 @@ vector<Airport> Graph::findCityAirports(string city) {
             cout << kv.first << endl;
         }
         getline(cin, selected);
-        cout<< selected;
+    }else if(countriesMap.size() == 1){
+        cout << city << ": Has Only One Airport --> "<< singleLookUp[0].getAirportCode() << " " << singleLookUp[0].getAirportName() <<endl;
+    } else{
+        vector<Airport> emptyVec;
+
+        cout <<  "Empty Vector" << endl;
+        //return emptyVec;
     }
 
+    for(auto source: countriesMap[selected]){
+        cout << source.getAirportCode() << ": " << source.getAirportName() << "--->" << source.getCity() << endl;
+    }
+/*
+    for(auto it: countriesMap){
+        cout << it.first << endl;
+        for(auto s : it.second){
+            cout << s.getAirportCode() << endl;
+            cout << "_____________" << endl;
+        }
+    }
+*/
     return countriesMap[selected];
 }
 
+void Graph::getLimitedPath(Airport source, int maxFlights, vector<tuple<Airport, int>> &path) {
+    queue<tuple<Airport, int>> finder;
+    set<string> visited;
+
+    tuple<Airport, int>  temp = make_tuple(source,0); //opo
+
+    visited.insert(source.getAirportCode());
+
+    finder.push(make_tuple(source,0));
+
+    while(get<1>(temp) <= maxFlights){
+        auto current = finder.front();
+        finder.pop();
+
+        auto airport = get<0>(current);
+        auto numberOfFlights = get<1>(current);
+
+        if(numberOfFlights > maxFlights) break;
+
+        path.push_back(temp);
+
+        for(auto neighbor : airport.getAirportFlights()){
+            if(visited.find(neighbor->getTarget()) == visited.end()){
+                visited.insert(neighbor->getTarget());
+                finder.push(make_tuple(*airportsLocator[neighbor->getTarget()], numberOfFlights + 1)); //missing dist
+            }
+        }
+        temp = current;
+    }
+    path.erase(path.begin() +1);
+}
+
+vector<Airport> Graph::locationRadius(double latitude, double longitude, int tolerance) {
+    vector<Airport> airportsNear;
+    for(auto airport: airports){
+        auto result = haversine(latitude, longitude, airport.getLatitude(), airport.getLongitude());
+        if(result <= tolerance){   //COMPARING DOUBLE TO INT
+            airportsNear.push_back(airport);
+        }
+    }
+    return airportsNear;
+}
+
+void Graph::cityRequest(string source, string target, vector<tuple<Airport, int>> &path) {
+    string departure, destination;
+
+    vector<Airport> sourceAirports = this->findCityAirports(source);
+    cout << "Please Choose the Airport Code of a Departure Point" << endl;
+    getline(cin, departure);
 
 
+    vector<Airport> targetAirports = this->findCityAirports(target);
+    cout << "Please Choose the Airport Code of a Destination Point" << endl;
+    getline(cin, destination);
 
+    getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
+
+}
 
 
 /*
+
+ for(auto target: targetAirports){
+        cout << target.getAirportCode() << ": " << target.getAirportName() << "--->" << target.getCity() << endl;
+    }
+
+
+vector<vector<tuple<Airport, int>>> allPaths;
+    vector<tuple<Airport, int>> path;
+
+    for(auto source : sourceAirports){
+        for(auto target : targetAirports){
+            getShortestPath(source, target, path);
+            if(allPaths.empty()){
+                allPaths.push_back(path);
+                continue;
+            }
+            if(path < *allPaths.crend()){
+                allPaths.push_back(path);
+            }
+        }
+    }
+
+    cout <<  "These are the best Paths" << endl;
+    for(auto vec : allPaths){
+        for(auto lastPath : vec){
+            cout << '(' << get<0>(lastPath).getAirportCode() << ',' << get<1>(lastPath) <<')' << "->";
+        }
+        cout << "___________________________________________" << endl;
+    }
+
  *string selectedCountry;
     set<string> countries;
     vector<Airport> cityAirports;

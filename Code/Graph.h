@@ -14,12 +14,16 @@
 #include <queue>
 #include <list>
 #include <tuple>
+#include <cmath>
+#include <algorithm>
 
 #include "Airport.h"
 #include "Airline.h"
 #include "Flight.h"
 
 using namespace std;
+
+
 
 class Graph {
 private:
@@ -40,7 +44,12 @@ public:
     vector<string> split (const string& s, const string& delimiter);
     void sortByCity();
     int getShortestPath(Airport source, Airport target, vector<tuple<Airport, int>> &path);
+    void getLimitedPath(Airport source, int maxFlights, vector<tuple<Airport, int>> &path);
     vector<Airport> findCityAirports(string city);
+    double haversine(double lat1, double lon1, double lat2, double lon2);
+    vector<Airport> locationRadius(double latitude, double longitude, int tolerance);
+    void cityRequest(string source, string target, vector<tuple<Airport, int>> &path);
+    
 };
 
 
