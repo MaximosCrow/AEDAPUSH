@@ -2,6 +2,7 @@
 // Created by carra on 04/01/2023.
 //
 
+#include <set>
 #include "Airport.h"
 
 Airport::Airport(string airportCode, string airportName, string city, string country, double latitude, double longitude) {
@@ -85,6 +86,27 @@ bool Airport::operator==(const Airport &airport) const {
 void Airport::sortByAirline() {
     sort(this->airportFlights.begin(), this->airportFlights.end());
 }
+
+set<string> Airport::airlineCount() {
+    set<string> numberOfAirlines;
+    for(auto flight: this->airportFlights){
+        numberOfAirlines.insert(flight->getAirlineCode());
+    }
+    cout << "Number of Resident Airlines In " << this->airportName << ": " << numberOfAirlines.size() << endl;
+    return numberOfAirlines;
+}
+
+set<string> Airport::destinationCount() {
+    set<string> destinations;
+    for(auto flight: this->airportFlights){
+        destinations.insert(flight->getTarget());
+    }
+
+    cout << "Number of Flights In " << this->airportName << ": " << destinations.size() << endl;
+    return destinations;
+}
+
+
 
 
 

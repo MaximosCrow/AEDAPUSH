@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <fstream>
 #include <string.h>
+=======
+
+>>>>>>> carlito
 #include "Graph.h"
 #include "Menu/Menu.h"
 
@@ -15,13 +19,41 @@ int main() {
     auto source = graph.getAirportsLocator()["OPO"];
     auto target = graph.getAirportsLocator()["DXB"];
 
+
     vector<tuple<Airport, int>> path;
 
+   graph.coordinatesRequest(source->getLatitude(), source->getLongitude(), 400, target->getLatitude(), target->getLongitude(), 400, path);
+
+    for(auto thing : path){
+        cout << get<0>(thing).getAirportCode() << ':' << get<1>(thing) << endl;
+    }
 
 
     menu(&graph);
 
     /*
+     *
+     *
+     *  for(auto airport : graph.locationRadius(source->getLatitude(), source->getLongitude(), 1000)){
+        cout << airport.getAirportCode() << ':' << airport.getCountry() << endl;
+    }
+     *
+     *
+     *graph.getLimitedPath(*source, 2, path);
+     *
+     *  for(auto thing : path){
+        cout << get<0>(thing).getAirportCode() << ':' << get<1>(thing) << endl;
+    }
+
+
+    for(auto  flight : source->getAirportFlights()){
+        cout << flight->getTarget() << ":  " <<  flight->getAirlineCode()<< endl;
+    }
+
+
+
+
+     *
     graph.sortByCity();
 
     cout<< graph.findCityAirports("London").size() << endl;
