@@ -24,7 +24,7 @@ void nav(Graph* graph) {
                 filter_by_airport(graph);
                 break;
             case 'c':
-                cout << "By city" << endl;
+                filter_by_city(graph);
                 break;
             case 'i':
                 cout << "By coordinates" << endl;
@@ -125,4 +125,40 @@ string choose_airline(vector<string> airlines) {
         cout << "Invalid input.." << endl;
     }
     return airlines[(choice - '0')];
+}
+
+void filter_by_city(Graph* graph) {
+    cout << "\t--- CITY FILTER ---" << endl;
+    auto source = find_city(graph->getAirports(), SOURCE);
+    auto dest = find_city(graph->getAirports(), DESTINATION);
+    // TODO: bug on getshortestpath
+    vector<tuple<Airport, int>>path;
+    graph->cityRequest(source, dest, path);
+}
+
+string find_city(vector<Airport> airports, SOURCE_DEST option) {
+    string city;
+    int flag = 0;
+    while (true) {
+        switch (option) {
+            case SOURCE:
+                cout << "Source City: ";
+                break;
+            case DESTINATION:
+                cout << "Destination City: ";
+                break;
+        }
+        cin >> city;
+        auto tmp_city = to_upper(city);
+        for (auto & airport : airports) {
+            if (tmp_city == to_upper(airport.getCity())) {
+                cout << "Valid City" << endl;
+                flag = 1;
+                break;
+            }
+        }
+        if (flag == 1) break;
+        cout << "Invalid City.." << endl;
+    }
+    return city;
 }
