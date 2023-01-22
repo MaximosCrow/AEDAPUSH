@@ -17,6 +17,8 @@ string find_city(vector<Airport>, enum SOURCE_DEST);
 
 void filter_by_city(Graph* graph);
 
+void filter_by_coordinates(Graph* graph);
+
 /*
  *
  */

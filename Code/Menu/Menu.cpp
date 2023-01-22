@@ -26,7 +26,7 @@ void menu(Graph* graph) {
                 nav(graph);
                 break;
             case 'i':
-                info();
+                info(graph);
                 break;
             case 'q':
                 break;

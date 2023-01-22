@@ -89,20 +89,26 @@ void Airport::sortByAirline() {
 
 set<string> Airport::airlineCount() {
     set<string> numberOfAirlines;
+    int count = 1;
+
     for(auto flight: this->airportFlights){
         numberOfAirlines.insert(flight->getAirlineCode());
     }
-    cout << "Number of Resident Airlines In " << this->airportName << ": " << numberOfAirlines.size() << endl;
+
+
     return numberOfAirlines;
 }
 
 set<string> Airport::destinationCount() {
     set<string> destinations;
+    int count = 1;
+
     for(auto flight: this->airportFlights){
         destinations.insert(flight->getTarget());
     }
 
-    cout << "Number of Flights In " << this->airportName << ": " << destinations.size() << endl;
+    cout << endl;
+
     return destinations;
 }
 

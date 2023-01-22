@@ -8,8 +8,9 @@
 #ifndef CODE_MENUINFO_H
 #define CODE_MENUINFO_H
 
-void info();
+void info(Graph* graph);
+void airport_info(Graph* graph);
+void possible_locations(Graph* graph);
 
-void airplane_data();
 
 #endif //CODE_MENUINFO_H

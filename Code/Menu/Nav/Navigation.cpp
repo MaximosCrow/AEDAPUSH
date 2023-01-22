@@ -1,6 +1,3 @@
-//
-// Created by bitor on 1/22/23.
-//
 
 #include "Navigation.h"
 
@@ -28,6 +25,7 @@ void nav(Graph* graph) {
                 break;
             case 'i':
                 cout << "By coordinates" << endl;
+                filter_by_coordinates(graph);
                 break;
             case 'q': // break and go to return address 'menu()'
                 break;
@@ -140,9 +138,12 @@ void filter_by_city(Graph* graph) {
     cout << "\t--- CITY FILTER ---" << endl;
     auto source = find_city(graph->getAirports(), SOURCE);
     auto dest = find_city(graph->getAirports(), DESTINATION);
-    // TODO: bug on getshortestpath
+    // TODO: bug on getshortestpath (FIXED)
     vector<tuple<Airport, int>>path;
     graph->cityRequest(source, dest, path);
+    for(auto tup: path){
+        cout << get<0>(tup).getAirportCode() << ": " <<  get<0>(tup).getAirportName() << endl;
+    }
 }
 
 string find_city(vector<Airport> airports, SOURCE_DEST option) {
@@ -170,4 +171,59 @@ string find_city(vector<Airport> airports, SOURCE_DEST option) {
         cout << "Invalid City.." << endl;
     }
     return city;
+}
+
+
+
+
+void filter_by_coordinates(Graph* graph){
+    double source_latitude = 0, source_longitude = 0, destination_latitude = 0, destination_longitude = 0;
+    int source_tolerance = 0, destination_tolerance = 0;
+    string string_buffer;
+    cout << "\t--- COORDINATES FILTER ---" << endl;
+
+    cout << "Enter Departure Latitude: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    cout << source_latitude;
+    source_latitude = stod(string_buffer);
+
+    cout << endl <<"Enter Departure Longitude: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    source_longitude = stod(string_buffer);
+
+    cout << "Enter Departure Offset: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    source_tolerance = stoi(string_buffer);
+
+    cout << endl <<"Enter Destination Latitude: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    destination_latitude = stod(string_buffer);
+
+    cout << endl <<"Enter Destination Longitude: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    destination_longitude = stod(string_buffer);
+
+    cout << "Enter Destination Offset: ";
+    cin >> string_buffer;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
+    destination_tolerance = stoi(string_buffer);
+
+    vector<tuple<Airport, int>>path;
+
+    graph->coordinatesRequest(source_latitude, source_longitude, source_tolerance, destination_latitude, destination_longitude, destination_tolerance, path);
+
+    for(auto tup: path){
+        cout << get<0>(tup).getAirportCode() << ": " <<  get<0>(tup).getAirportName() << endl;
+    }
 }

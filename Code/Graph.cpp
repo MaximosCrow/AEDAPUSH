@@ -233,6 +233,8 @@ vector<Airport> Graph::findCityAirports(string city) {
         for(auto &kv : countriesMap){
             cout << kv.first << endl;
         }
+        cin.clear();
+        cin.ignore(INT_MAX,'\n');
         getline(cin, selected);
     }
 
@@ -296,10 +298,18 @@ vector<Airport> Graph::locationRadius(double latitude, double longitude, int tol
             airportsNear.push_back(airport);
         }
     }
-
-    for(auto source: airportsNear){
-        cout << source.getAirportCode() << ": " << source.getAirportName() << "--->" << source.getCity() << endl;
+    if(airportsNear.size() > 1){
+        for(auto source: airportsNear){
+            cout << source.getAirportCode() << ": " << source.getAirportName() << "--->" << source.getCity() << endl;
+        }
     }
+    if(airportsNear.size() == 1){
+        cout << "There is Only One Airport Near: " << airportsNear.begin()->getAirportCode() << "-->" << airportsNear.begin()->getAirportName() << endl;
+    }
+
+    if(airportsNear.size() == 0)
+        cout << "404 Airports Not Found" << endl;
+
     return airportsNear;
 }
 
@@ -311,7 +321,7 @@ void Graph::cityRequest(string source, string target, vector<tuple<Airport, int>
     cin >> departure;
     cin.clear();
     cin.ignore(INT_MAX,'\n');
-    //getline(cin, departure);
+
 
 
     vector<Airport> targetAirports = this->findCityAirports(target);
@@ -330,22 +340,27 @@ void Graph::coordinatesRequest(double sourceLatitude, double sourceLongitude, in
 
     auto sourceAirports = locationRadius(sourceLatitude, sourceLongitude, sourceTolerance);
     cout << "Please Choose the Airport Code of a Departure Point" << endl;
-    getline(cin, departure);
+    cin >> departure;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
 
     auto targetAirports = locationRadius(targetLatitude, targetLongitude, targetTolerance);
     cout << "Please Choose the Airport Code of a Destination Point" << endl;
-    getline(cin, destination);
+    cin >>  destination;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
 
     getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
 }
 
 set<string> Graph::countryCount(Airport airport) {
         set<string> countries;
+        int count = 1;
+
         for(auto code: airport.destinationCount()){
             countries.insert(airportsLocator[code]->getCountry());
         }
 
-        cout << "Number of Countries In " << airport.getAirportName()<< ": " << countries.size() << endl;
         return countries;
 }
 
