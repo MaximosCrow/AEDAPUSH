@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-#include <iostream>
-#include <fstream>
-#include <string.h>
-=======
 
->>>>>>> carlito
+#include <iostream>
+
+
 #include "Graph.h"
 #include "Menu/Menu.h"
 
@@ -15,8 +12,12 @@ using namespace std;
 int main() {
 
     Graph graph("..//Data//airports.csv", "..//Data//flights.csv", "..//Data//airlines.csv");
+    menu(&graph);
 
-    auto source = graph.getAirportsLocator()["OPO"];
+    /*
+     *
+     *
+     * auto source = graph.getAirportsLocator()["OPO"];
     auto target = graph.getAirportsLocator()["DXB"];
 
 
@@ -27,11 +28,6 @@ int main() {
     for(auto thing : path){
         cout << get<0>(thing).getAirportCode() << ':' << get<1>(thing) << endl;
     }
-
-
-    menu(&graph);
-
-    /*
      *
      *
      *  for(auto airport : graph.locationRadius(source->getLatitude(), source->getLongitude(), 1000)){

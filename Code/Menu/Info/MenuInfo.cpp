@@ -6,28 +6,34 @@
 
 using namespace std;
 
-void info() {
+void info(Graph graph) {
     char choice = '\0';
 
     do {
         cout << "\t--- DATA INFO SUB-MENU ---" << endl;
         cout << "Select any from below:" << endl;
 
-        cout << "(P) -> Airplane Data" << endl;
-        cout << "(L) -> Airline Data" << endl;
-        cout << "(F) -> Fight Data" << endl;
+        cout << "(P) -> Airport Flight Number" << endl;
+        cout << "(L) -> Airport Airline Number" << endl;
+        cout << "(F) -> Airport Destination Number" << endl;
+        cout << "(N) -> Reachable Airports With N Flights" << endl;
         cout << "(Q) -> Go Back.." << endl;
         cin >> choice;
         choice = tolower(choice);
 
         switch (choice) {
             case '1':
-                //airplane_data();
+                cout << "Insert Airport Code" << endl;
+
                 break;
             case '2':
-                info();
+                //airline_data();
                 break;
             case '3':
+                //flight_data();
+                break;
+            case 4:
+
                 break;
             case 'q': // break and go to return address 'menu()'
                 break;
@@ -37,3 +43,4 @@ void info() {
         }
     }while (choice != 'q');
 }
+

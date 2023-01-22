@@ -3,11 +3,9 @@ project(Code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-<<<<<<< HEAD
-add_executable(Code main.cpp Airport.h Airport.cpp Airline.cpp Airline.h Flight.cpp Flight.h Flight.cpp Graph.cpp Graph.h MenuController.cpp MenuController.h Helper.cpp Menu/Menu.cpp Menu/Menu.h Helpers/StringHelpers.cpp Helpers/StringHelpers.h Menu/Info/MenuInfo.cpp Menu/Info/MenuInfo.h Menu/Nav/Navigation.cpp Menu/Nav/Navigation.h)
-=======
-add_executable(Code main.cpp Airport.h Airport.cpp Airline.cpp Airline.h Flight.cpp Flight.h Flight.cpp Graph.cpp Graph.h MenuController.cpp MenuController.h)
->>>>>>> carlito
+
+add_executable(Code main.cpp Airport.h Airport.cpp Airline.cpp Airline.h Flight.cpp Flight.h Flight.cpp Graph.cpp Graph.h Menu/Menu.cpp Menu/Menu.h Helpers/StringHelpers.cpp Helpers/StringHelpers.h Menu/Info/MenuInfo.cpp Menu/Info/MenuInfo.h Menu/Nav/Navigation.cpp Menu/Nav/Navigation.h)
+
 
 # Doxygen Build
 find_package(Doxygen)

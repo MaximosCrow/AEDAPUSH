@@ -49,9 +49,18 @@ void filter_by_airport(Graph* graph) {
     cout << "Source: " << source << endl << "Dest: " << dest << endl;
     if (!airline.empty()) {
         cout << "Airline: " << airline << endl;
+        // TODO: show shortest path with airline
+
+    }else{
+        // TODO: show shortest path
+        vector<tuple<Airport, int>> path;
+        graph->getShortestPath(*graph->getAirportsLocator()[source], *graph->getAirportsLocator()[dest], path);
+        for(auto tup: path){
+            cout << get<0>(tup).getAirportCode() << ": " <<  get<0>(tup).getAirportName() << endl;
+        }
     }
 
-    // TODO: show shortest path
+
 }
 
 string airport_code(map<string, Airport*> airports, SOURCE_DEST option) {
