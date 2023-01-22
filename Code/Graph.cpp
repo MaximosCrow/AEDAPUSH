@@ -303,7 +303,8 @@ void Graph::cityRequest(string source, string target, vector<tuple<Airport, int>
 
     vector<Airport> sourceAirports = this->findCityAirports(source);
     cout << "Please Choose the Airport Code of a Departure Point" << endl;
-    getline(cin, departure);
+    cin >> departure;
+    //getline(cin, departure);
 
 
     vector<Airport> targetAirports = this->findCityAirports(target);

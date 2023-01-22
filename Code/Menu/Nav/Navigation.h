@@ -7,11 +7,15 @@
 #include "../../Graph.h"
 #include "../../Helpers/StringHelpers.h"
 
-// isolate airport options
+
 enum SOURCE_DEST{
     SOURCE,
     DESTINATION
 };
+
+string find_city(vector<Airport>, enum SOURCE_DEST);
+
+void filter_by_city(Graph* graph);
 
 /*
  *

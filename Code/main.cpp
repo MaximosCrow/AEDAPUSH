@@ -1,6 +1,7 @@
 
 #include <iostream>
-
+#include <fstream>
+#include <string.h>
 
 #include "Graph.h"
 #include "Menu/Menu.h"
@@ -28,6 +29,9 @@ int main() {
     for(auto thing : path){
         cout << get<0>(thing).getAirportCode() << ':' << get<1>(thing) << endl;
     }
+*/
+
+    /*
      *
      *
      *  for(auto airport : graph.locationRadius(source->getLatitude(), source->getLongitude(), 1000)){
