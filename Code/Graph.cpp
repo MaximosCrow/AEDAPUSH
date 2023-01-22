@@ -231,9 +231,7 @@ vector<Airport> Graph::findCityAirports(string city) {
         cout << city << ": Has Only One Airport --> "<< singleLookUp[0].getAirportCode() << " " << singleLookUp[0].getAirportName() <<endl;
     } else{
         vector<Airport> emptyVec;
-
         cout <<  "Empty Vector" << endl;
-        //return emptyVec;
     }
 
     for(auto source: countriesMap[selected]){
@@ -291,6 +289,10 @@ vector<Airport> Graph::locationRadius(double latitude, double longitude, int tol
             airportsNear.push_back(airport);
         }
     }
+
+    for(auto source: airportsNear){
+        cout << source.getAirportCode() << ": " << source.getAirportName() << "--->" << source.getCity() << endl;
+    }
     return airportsNear;
 }
 
@@ -308,6 +310,21 @@ void Graph::cityRequest(string source, string target, vector<tuple<Airport, int>
 
     getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
 
+}
+
+
+void Graph::coordinatesRequest(double sourceLatitude, double sourceLongitude, int sourceTolerance, double targetLatitude, double targetLongitude, int targetTolerance, vector<tuple<Airport, int>> &path){
+    string departure, destination;
+
+    auto sourceAirports = locationRadius(sourceLatitude, sourceLongitude, sourceTolerance);
+    cout << "Please Choose the Airport Code of a Departure Point" << endl;
+    getline(cin, departure);
+
+    auto targetAirports = locationRadius(targetLatitude, targetLongitude, targetTolerance);
+    cout << "Please Choose the Airport Code of a Destination Point" << endl;
+    getline(cin, destination);
+
+    getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
 }
 
 

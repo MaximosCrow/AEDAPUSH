@@ -49,7 +49,7 @@ public:
     double haversine(double lat1, double lon1, double lat2, double lon2);
     vector<Airport> locationRadius(double latitude, double longitude, int tolerance);
     void cityRequest(string source, string target, vector<tuple<Airport, int>> &path);
-    
+    void coordinatesRequest(double sourceLatitude, double sourceLongitude, int sourceTolerance, double targetLatitude, double targetLongitude, int targetTolerance, vector<tuple<Airport, int>> &path);
 };
 
 

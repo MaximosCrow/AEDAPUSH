@@ -9,9 +9,10 @@ int main() {
     auto source = graph.getAirportsLocator()["OPO"];
     auto target = graph.getAirportsLocator()["DXB"];
 
+
     vector<tuple<Airport, int>> path;
 
-   graph.cityRequest("Porto", "London", path);
+   graph.coordinatesRequest(source->getLatitude(), source->getLongitude(), 400, target->getLatitude(), target->getLongitude(), 400, path);
 
     for(auto thing : path){
         cout << get<0>(thing).getAirportCode() << ':' << get<1>(thing) << endl;
