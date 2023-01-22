@@ -8,7 +8,7 @@
 #ifndef CODE_MENUINFO_H
 #define CODE_MENUINFO_H
 
-void info(Graph*);
+void info();
 
 void airplane_data();
 

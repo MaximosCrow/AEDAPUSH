@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void info(Graph graph) {
+void info() {
     char choice = '\0';
 
     do {

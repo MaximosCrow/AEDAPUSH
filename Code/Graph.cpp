@@ -219,7 +219,14 @@ vector<Airport> Graph::findCityAirports(string city) {
         }
     }
 
-    cout << selected << endl;
+    if(countriesMap.size() == 0){
+        cout << "Empty Vector" << endl;
+    }
+
+    if(countriesMap.size() == 1){
+        cout << city << ": Has Only One Airport --> "<< singleLookUp[0].getAirportCode() << " " << singleLookUp[0].getAirportName() <<endl;
+        selected = singleLookUp[0].getAirportCode();
+    }
 
     if(countriesMap.size() > 1){
         cout << "Specify Country" << endl;
@@ -227,12 +234,10 @@ vector<Airport> Graph::findCityAirports(string city) {
             cout << kv.first << endl;
         }
         getline(cin, selected);
-    }else if(countriesMap.size() == 1){
-        cout << city << ": Has Only One Airport --> "<< singleLookUp[0].getAirportCode() << " " << singleLookUp[0].getAirportName() <<endl;
-    } else{
-        vector<Airport> emptyVec;
-        cout <<  "Empty Vector" << endl;
     }
+
+
+
 
     for(auto source: countriesMap[selected]){
         cout << source.getAirportCode() << ": " << source.getAirportName() << "--->" << source.getCity() << endl;
@@ -304,12 +309,16 @@ void Graph::cityRequest(string source, string target, vector<tuple<Airport, int>
     vector<Airport> sourceAirports = this->findCityAirports(source);
     cout << "Please Choose the Airport Code of a Departure Point" << endl;
     cin >> departure;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
     //getline(cin, departure);
 
 
     vector<Airport> targetAirports = this->findCityAirports(target);
     cout << "Please Choose the Airport Code of a Destination Point" << endl;
-    getline(cin, destination);
+    cin >> destination;
+    cin.clear();
+    cin.ignore(INT_MAX,'\n');
 
     getShortestPath(*airportsLocator[departure], *airportsLocator[destination], path);
 
